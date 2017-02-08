@@ -70,6 +70,9 @@ public class ReservationAPI: APIBase {
     /**
      - DELETE /reservations
      - Delete a reservation.
+     - API Key:
+       - type: apiKey X-API-Key 
+       - name: api_key
      
      - parameter body: (body) Reservation Data 
 
