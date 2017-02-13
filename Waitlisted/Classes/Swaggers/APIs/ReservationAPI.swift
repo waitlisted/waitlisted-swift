@@ -16,6 +16,53 @@ public class ReservationAPI: APIBase {
      - parameter body: (body) Reservation Data 
      - parameter completion: completion handler to receive the data and the error objects
      */
+    public class func activateReservation(body body: ReservationRequest, completion: ((data: ReservationsResponse?, error: ErrorType?) -> Void)) {
+        activateReservationWithRequestBuilder(body: body).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     - POST /reservations/activate
+     - Activate a reservation.
+     - API Key:
+       - type: apiKey X-API-Key 
+       - name: api_key
+     - examples: [{contentType=application/json, example={
+  "activated_at" : "2000-01-23T04:56:07.000+00:00",
+  "total_count" : 505,
+  "name" : "Sam Smith",
+  "created_at" : "2000-01-23T04:56:07.000+00:00",
+  "id" : "dea681f300a068fb29a4790c866cbd18",
+  "position" : 93,
+  "affiliate" : "dea681f3",
+  "uuid" : "dea681f300a068fb29a4790c866cbd18",
+  "email" : "test@waitlisted.co",
+  "referred_count" : 2
+}}]
+     
+     - parameter body: (body) Reservation Data 
+
+     - returns: RequestBuilder<ReservationsResponse> 
+     */
+    public class func activateReservationWithRequestBuilder(body body: ReservationRequest) -> RequestBuilder<ReservationsResponse> {
+        let path = "/reservations/activate"
+        let URLString = WaitlistedAPI.basePath + path
+        let parameters = body.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<ReservationsResponse>.Type = WaitlistedAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+
+     - parameter body: (body) Reservation Data 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
     public class func createReservation(body body: Reservation, completion: ((data: ReservationsResponse?, error: ErrorType?) -> Void)) {
         createReservationWithRequestBuilder(body: body).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
